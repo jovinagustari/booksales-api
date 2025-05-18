@@ -15,8 +15,8 @@
             <li><strong>Title: </strong>{{ $book['title'] }}</li>
             <li><strong>Published Year: </strong>{{ $book['year'] }}</li>
             <li><strong>Description: </strong>{{ $book['description'] }}</li>
-            <li><strong>Author: </strong>{{ $authors[$book['author_id']] ?? 'Unknown Author' }}</li>
-            <li><strong>Genre: </strong>{{ $genres[$book['genre_id']] ?? 'Unknown Genre' }}</li>
+            <li><strong>Author: </strong>{{ $authors[$book['author_id']]['name'] ?? 'Unknown Author' }}</li>
+            <li><strong>Genre: </strong>{{ $genres[$book['genre_id']]['name'] ?? 'Unknown Genre' }}</li>
             <li><strong>Price: </strong>Rp {{ number_format($book['price'], 0, ',', '.') }}</li>
             <li><strong>Stock: </strong>{{ $book['stock'] }}</li>
         </ul>

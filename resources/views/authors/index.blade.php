@@ -10,8 +10,11 @@
 
     <h2>Author List</h2>
     <ul>
-        @foreach($authors as $id => $name)
-            <li>{{ $id }} - {{ $name }}</li>
+        @foreach($authors as $author)
+            <li>{{ $author['name'] }}</li>
+            <p>{{ $author['bio'] }}</p>
+            <p>Born: {{ $author['birth_year'] }}</p>
+            <p>Nationality: {{ $author['nationality'] }}</p>
         @endforeach
     </ul>
 </body>

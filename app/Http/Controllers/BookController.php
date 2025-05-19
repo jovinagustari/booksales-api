@@ -14,6 +14,12 @@ class BookController extends Controller
         $genres = Genre::all();
         $authors = Author::all();
 
-        return view('books.index', compact('books', 'genres', 'authors'));
+       return response()->json([
+        'success' => true,
+        'message' => 'Books retrieved successfully',
+        'data' => $authors,
+        'data' => $genres,
+        'data' => $books
+       ], 200);
     }
 }

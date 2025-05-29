@@ -57,7 +57,7 @@ class GenreController extends Controller
         ], 201);
     }
 
-    public function show($id) {
+    public function show(string $id) {
         $genre = Genre::find($id);
 
         // Check if genre exists
@@ -71,12 +71,12 @@ class GenreController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Successfully retrieved genre by id',
+            'message' => 'Successfully retrieved genre by ID',
             'data' => $genre
         ], 200);
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, string $id) {
         // Mencari data genre
         $genre = Genre::find($id);
         if (!$genre) {

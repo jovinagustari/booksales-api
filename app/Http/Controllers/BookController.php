@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use App\Models\Genre;
-use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -12,9 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class BookController extends Controller
 {
     public function index() {
-        $books = Book::all();
-        $genres = Genre::all();
-        $authors = Author::all();
+        $books = Book::with(['genre', 'author'])->get();
 
         // Check if the books collection is empty
         if ($books->isEmpty()) {
@@ -24,28 +20,10 @@ class BookController extends Controller
                 'data' => []
             ], 404);
         }
-        // Check if the genres collection is empty
-        if ($genres->isEmpty()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No genres found',
-                'data' => []
-            ], 404);
-        }
-        // Check if the authors collection is empty
-        if ($authors->isEmpty()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No authors found',
-                'data' => []
-            ], 404);
-        }
 
        return response()->json([
         'success' => true,
         'message' => 'Books retrieved successfully',
-        'data' => $authors,
-        'data' => $genres,
         'data' => $books
        ], 200);
     }
@@ -97,7 +75,7 @@ class BookController extends Controller
     }
 
     public function show(string $id) {
-        $book = Book::find($id);
+        $book = Book::with(['genre', 'author'])->find($id);
 
         if (!$book) {
             return response()->json([
@@ -109,7 +87,7 @@ class BookController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Successfully retrieved book by id',
+            'message' => 'Successfully retrieved book by ID',
             'data' => $book
         ], 200);
     }
@@ -117,6 +95,7 @@ class BookController extends Controller
     public function update(Request $request, string $id) {
         // Mencari data book
         $book = Book::find($id);
+        
         if (!$book) {
             return response()->json([
                 'success' => false,
@@ -147,15 +126,16 @@ class BookController extends Controller
         }
 
         // Siapkan data untuk update
-        $data = [
-            'title' => $request->title,
-            'year' => $request->year,
-            'description' => $request->description,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'genre_id' => $request->genre_id,
-            'author_id' => $request->author_id
-        ];
+        $data = $request->only([
+            'title',
+            'year',
+            'description',
+            'price',
+            'stock',
+            'genre_id',
+            'author_id'
+        ]);
+
     
         // Handle image (update and delete)
         if ($request->hasFile('cover_image')) {

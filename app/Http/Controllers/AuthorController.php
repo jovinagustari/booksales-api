@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AuthorController extends Controller
@@ -74,7 +73,7 @@ class AuthorController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Successfully retrieved author by id',
+            'message' => 'Successfully retrieved author by ID',
             'data' => $author
         ], 200);
     }
